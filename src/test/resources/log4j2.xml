@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://logging.apache.org/xml/ns"
+  xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+
+  <Appenders>
+    <Console name="CONSOLE">
+      <PatternLayout pattern="%d{yyyy-mm-dd' 'HH:mm:ss} %-5p [%t]: %m%n" />
+    </Console>
+
+    <RollingFile name="FileAppender" filePattern="logs/app-%d{yyyy-MM-dd}-%i.txt" append="true">
+      <PatternLayout pattern="%d{yyyy-mm-dd' 'HH:mm:ss} %-5p [%t]: %m%n" />
+
+      <Policies>
+        <!-- Roll over at midnight every day -->
+        <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+        <!-- Roll over if file reaches 10MB -->
+        <SizeBasedTriggeringPolicy size="10 MB" />
+      </Policies>
+
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <Logger name="org.example" level="DEBUG" />
+    <Root level="WARN">
+      <AppenderRef ref="CONSOLE" />
+      <AppenderRef ref="FileAppender" />
+    </Root>
+  </Loggers>
+
+</Configuration>
