@@ -14,7 +14,7 @@
 
         <allure.version>2.29.0</allure.version>
         <aspectj.version>1.9.25.1</aspectj.version>
-        <cucumber.version>7.20.1</cucumber.version>
+        <cucumber.version>7.34.2</cucumber.version>
     </properties>
 
     <dependencyManagement>
@@ -30,7 +30,7 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.11.3</version>
+                <version>5.14.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
