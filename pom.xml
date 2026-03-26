@@ -12,7 +12,7 @@
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <allure.version>2.29.0</allure.version>
+        <allure.version>2.33.0</allure.version>
         <aspectj.version>1.9.25.1</aspectj.version>
         <cucumber.version>7.34.2</cucumber.version>
     </properties>
@@ -177,6 +177,7 @@
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

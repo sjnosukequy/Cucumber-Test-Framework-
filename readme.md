@@ -42,3 +42,5 @@ mvn test -Dtest=org.example.cucumber.tests.suites.RegressionSuite
 ```bash
 mvn test -Dtest=org.example.cucumber.tests.suites.AllSuites
 ```
+
+mvn io.qameta.allure:allure-maven:2.12.0:serve
