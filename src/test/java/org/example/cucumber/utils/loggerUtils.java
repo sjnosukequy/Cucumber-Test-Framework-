@@ -27,4 +27,11 @@ public class loggerUtils {
     public static void logApiMessage(String actualMessage) {
         LOGGER.info("Received Message: {}", actualMessage);
     }
+
+    public static void logApiReponse(String response) {
+        LOGGER.info("API Response: ");
+        for (String line : response.split("\n")) {
+            LOGGER.info(line);
+        }
+    }
 }

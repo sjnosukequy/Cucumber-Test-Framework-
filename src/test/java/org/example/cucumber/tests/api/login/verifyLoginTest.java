@@ -1,5 +1,4 @@
 package org.example.cucumber.tests.api.login;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
@@ -18,19 +17,17 @@ public class verifyLoginTest {
         response = verifyLoginApi.verifyApi(email, password);
     }
 
-    @Then("the login response status code should be {int}")
-    public void the_response_status_code_should_be(Integer expectedStatusCode) {
+    @Then("the login response status code should be {int} and the login response message should be {string}")
+    public void the_response_status_code_should_be(Integer expectedStatusCode, String expectedMessage) {
         // Implement the logic to verify the response status code
         int actualStatusCode = response.jsonPath().getInt("responseCode");
-        loggerUtils.logApiStatus(expectedStatusCode, actualStatusCode);
+        String actualMessage = response.jsonPath().getString("message");
+
+        loggerUtils.logApiReponse(response.jsonPath().prettify());
+
         assertEquals(actualStatusCode, expectedStatusCode);
+        assertEquals(actualMessage, expectedMessage);
+
     }
     
-    @And("the login response message should be {string}")
-    public void the_response_message_should_be(String expectedMessage) {
-        // Implement the logic to verify the response contains the expected message
-        String actualMessage = response.jsonPath().getString("message");
-        loggerUtils.logApiMessage(expectedMessage, actualMessage);
-        assertEquals(actualMessage, expectedMessage);
-    }
 }

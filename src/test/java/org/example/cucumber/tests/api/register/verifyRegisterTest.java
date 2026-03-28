@@ -10,7 +10,6 @@ import org.example.cucumber.utils.loggerUtils;
 import static org.example.cucumber.utils.loggerUtils.LOGGER;
 
 import io.cucumber.java.After;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
@@ -38,19 +37,15 @@ public class verifyRegisterTest {
         loggerUtils.newLine();
     }
 
-    @Then("the register response status code should be {int}")
-    public void the_register_response_status_code_should_be(Integer expectedStatusCode) {
+    @Then("the register response status code should be {int} and the register response message should be {string}")
+    public void the_register_response_status_code_should_be(Integer expectedStatusCode, String expectedMessage) {
         // Implement the logic to verify the response status code
         int actualStatusCode = response.jsonPath().getInt("responseCode");
-        loggerUtils.logApiStatus(expectedStatusCode, actualStatusCode);
-        assertEquals(expectedStatusCode, actualStatusCode);
-    }
-
-    @And("the register response message should be {string}")
-    public void the_register_response_message_should_be(String expectedMessage) {
-        // Implement the logic to verify the response contains the expected message
         String actualMessage = response.jsonPath().getString("message");
-        loggerUtils.logApiMessage(expectedMessage, actualMessage);
+
+        loggerUtils.logApiReponse(response.jsonPath().prettify());
+
+        assertEquals(expectedStatusCode, actualStatusCode);
         assertEquals(expectedMessage, actualMessage);
     }
 
