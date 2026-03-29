@@ -5,10 +5,10 @@ import static io.restassured.RestAssured.given;
 import java.util.Map;
 
 import org.example.cucumber.src.api.baseApi;
+import org.example.cucumber.src.models.object.user;
+
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-// import org.example.cucumber.utils.emptyUtils;
-import org.example.cucumber.src.models.user;
 
 public class createAccApi extends baseApi {
     static public Response createAcc(user user) {

@@ -12,12 +12,12 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import static org.example.cucumber.utils.loggerUtils.LOGGER;
-import org.example.cucumber.utils.loggerUtils;
+// import org.example.cucumber.utils.loggerUtils;
 import io.cucumber.plugin.event.TestCase;
 
 public class CucumberSummaryPlugin implements ConcurrentEventListener {
     private final AtomicInteger total = new AtomicInteger();
-    private final AtomicInteger passed = new AtomicInteger();
+    private final AtomicInteger pass = new AtomicInteger();
     private final AtomicInteger failed = new AtomicInteger();
     private final AtomicInteger skipped = new AtomicInteger();
 
@@ -39,15 +39,16 @@ public class CucumberSummaryPlugin implements ConcurrentEventListener {
             UUID id = testCase.getId();
             String uri = testCase.getUri() != null ? testCase.getUri().toString() : "unknown";
             int line = testCase.getLocation() != null ? testCase.getLocation().getLine() : -1;
+            String errorMessage =event.getResult().getError().getMessage();
 
             Status status = event.getResult().getStatus();
             switch (status) {
                 case PASSED:
-                    passed.incrementAndGet();
+                    pass.incrementAndGet();
                     break;
                 case FAILED:
                     failed.incrementAndGet();
-                    failedTestCases.add(String.format("%s (%s)  %s:%d", scenarioName, id, uri, line));
+                    failedTestCases.add(String.format("%s (%s)  %s:%d %s", scenarioName, id, uri, line, System.lineSeparator() + errorMessage));
                     break;
                 case SKIPPED:
                     skipped.incrementAndGet();
@@ -65,12 +66,12 @@ public class CucumberSummaryPlugin implements ConcurrentEventListener {
 
             LOGGER.info("TEST SUMMARY");
             LOGGER.info(
-                    "Tests run: {}, Failures: {}, Skipped: {}, Time elapsed: {} s",
+                    "Tests run: {}, Pass: {}, Failures: {}, Skipped: {}, Time elapsed: {} s",
                     total.get(),
+                    total.get() - failed.get() - skipped.get(),
                     failed.get(),
                     skipped.get(),
                     String.format("%.3f", elapsedSeconds));
-            LOGGER.info("Passed: {}", passed.get());
             if (failedTestCases.isEmpty()) {
                 LOGGER.info("Failed test cases: None");
             } else {
@@ -79,7 +80,8 @@ public class CucumberSummaryPlugin implements ConcurrentEventListener {
                     LOGGER.error(" - {}", failedTestCase);
                 }
             }
-            loggerUtils.newLine();
+            // loggerUtils.newLine();
+            LOGGER.info("=".repeat(70));
         });
     }
 }

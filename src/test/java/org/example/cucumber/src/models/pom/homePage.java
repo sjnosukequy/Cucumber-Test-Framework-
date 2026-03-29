@@ -1,0 +1,24 @@
+package org.example.cucumber.src.models.pom;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class homePage extends basePage {
+    public homePage(WebDriver driver) {
+        super(driver, "/");
+    }
+
+    public void addProductToCart(String productName) {
+        WebElement productNameElement = driver.findElement(By.xpath("//p[text()='" + productName + "']"));
+        WebElement parElement = productNameElement.findElement(By.xpath("./.."));
+        WebElement addToCartButton = parElement.findElement(By.cssSelector("a[data-product-id]"));
+        System.out.println("Found add to cart button: " + addToCartButton);
+        addToCartButton.click();
+    }
+
+    public void openCartFromModal() {
+        WebElement viewCart = driver.findElement(By.cssSelector("#cartModal a[href='/view_cart']"));
+        viewCart.click();
+    }
+}
