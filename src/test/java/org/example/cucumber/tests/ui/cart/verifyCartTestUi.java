@@ -22,7 +22,8 @@ public class verifyCartTestUi {
     cartPage page;
     homePage homePage;
     browserUtils browserUtils;
-    String products;
+    String products = "";
+    String deletedProducts = "";
 
     @Given("I am at the homepage for cart testing")
     public void i_am_at_the_homepage_for_cart_testing() {
@@ -126,43 +127,47 @@ public class verifyCartTestUi {
     public void the_product_image_name_price_and_quantity_should_be_visible_and_correct() {
 
         for (String product : products.split(";")) {
-            WebElement cartRow = page.getProductRow(product.trim());
-            WebElement image = page.getProductRowImage(cartRow);
-            WebElement name = page.getProductRowName(cartRow);
-            WebElement price = page.getProductRowPrice(cartRow);
-            WebElement quantity = page.getProductRowQuantity(cartRow);
+            if (!deletedProducts.contains(product)) {
+                WebElement cartRow = page.getProductRow(product.trim());
+                WebElement image = page.getProductRowImage(cartRow);
+                WebElement name = page.getProductRowName(cartRow);
+                WebElement price = page.getProductRowPrice(cartRow);
+                WebElement quantity = page.getProductRowQuantity(cartRow);
 
-            assertEquals(true, image.isDisplayed(), "Expected product image to be displayed for product '"
-                    + product.trim() + "', but it was not found.");
-            assertEquals(product.trim(), name.getText().trim(),
-                    "Expected product name to be: " + product.trim() + " but got: " + name.getText().trim());
-            assertEquals(true, price.isDisplayed(), "Expected product price to be displayed for product '"
-                    + product.trim() + "', but it was not found.");
-            assertEquals(true, quantity.isDisplayed(), "Expected product quantity to be displayed for product '"
-                    + product.trim() + "', but it was not found.");
+                assertEquals(true, image.isDisplayed(), "Expected product image to be displayed for product '"
+                        + product.trim() + "', but it was not found.");
+                assertEquals(product.trim(), name.getText().trim(),
+                        "Expected product name to be: " + product.trim() + " but got: " + name.getText().trim());
+                assertEquals(true, price.isDisplayed(), "Expected product price to be displayed for product '"
+                        + product.trim() + "', but it was not found.");
+                assertEquals(true, quantity.isDisplayed(), "Expected product quantity to be displayed for product '"
+                        + product.trim() + "', but it was not found.");
+            }
         }
     }
 
     @And("the line total should be displayed correctly as price multiplied by quantity")
     public void the_line_total_should_be_displayed_correctly_as_price_multiplied_by_quantity() {
         for (String product : products.split(";")) {
-            WebElement cartRow = page.getProductRow(product.trim());
-            WebElement priceElement = page.getProductRowPrice(cartRow);
-            WebElement quantityElement = page.getProductRowQuantity(cartRow);
-            WebElement totalElement = page.getProductRowTotal(cartRow);
+            if (!deletedProducts.contains(product)) {
+                WebElement cartRow = page.getProductRow(product.trim());
+                WebElement priceElement = page.getProductRowPrice(cartRow);
+                WebElement quantityElement = page.getProductRowQuantity(cartRow);
+                WebElement totalElement = page.getProductRowTotal(cartRow);
 
-            String priceText = priceElement.getText().split(" ")[1];
-            String quantityText = quantityElement.getText().trim();
-            String totalText = totalElement.getText().split(" ")[1];
+                String priceText = priceElement.getText().split(" ")[1];
+                String quantityText = quantityElement.getText().trim();
+                String totalText = totalElement.getText().split(" ")[1];
 
-            double price = Double.parseDouble(priceText);
-            int quantity = Integer.parseInt(quantityText);
-            double expectedTotal = price * quantity;
-            double actualTotal = Double.parseDouble(totalText);
+                double price = Double.parseDouble(priceText);
+                int quantity = Integer.parseInt(quantityText);
+                double expectedTotal = price * quantity;
+                double actualTotal = Double.parseDouble(totalText);
 
-            assertEquals(expectedTotal, actualTotal, 0.01,
-                    "Expected line total to be price multiplied by quantity, but it was not correct for product '"
-                            + product.trim() + "'.");
+                assertEquals(expectedTotal, actualTotal, 0.01,
+                        "Expected line total to be price multiplied by quantity, but it was not correct for product '"
+                                + product.trim() + "'.");
+            }
         }
     }
 
@@ -181,4 +186,42 @@ public class verifyCartTestUi {
         assertEquals(true, checkoutButton.isDisplayed(),
                 "Expected Proceed To Checkout button to be visible, but it was not found.");
     }
+
+    @When("I delete the product {string} from the cart")
+    public void i_delete_the_product_from_the_cart(String deletedProduct) {
+        deletedProducts = deletedProduct;
+        for (String product : deletedProducts.split(";")) {
+            WebElement cartRow = page.getProductRow(product.trim());
+            WebElement deleteIcon = page.getProductRowDelete(cartRow);
+            deleteIcon.click();
+            waitUtils.wait(2); // Wait for the cart to update after deleting the product
+        }
+    }
+
+    @Then("the deleted items should be removed")
+    public void the_deleted_items_should_be_removed() {
+        for (String product : deletedProducts.split(";")) {
+            boolean isDeleted = false;
+            try {
+                page.getProductRow(product.trim());
+            } catch (Exception e) {
+                isDeleted = true; // If an exception occurs, it means the product was deleted
+            }
+            assertEquals(true, isDeleted,
+                    "Expected product '" + product.trim() + "' to be removed from the cart, but it was still found.");
+        }
+    }
+
+    @And("the non-deleted items should remain displayed correctly")
+    public void the_non_deleted_items_should_remain_displayed_correctly() {
+
+        for (String product : products.split(";")) {
+            if (!deletedProducts.contains(product)) {
+                WebElement cartRow = page.getProductRow(product.trim());
+                assertEquals(true, cartRow.isDisplayed(),
+                        "Expected product '" + product.trim() + "' to remain in the cart, but it was not found.");
+            }
+        }
+    }
+
 }

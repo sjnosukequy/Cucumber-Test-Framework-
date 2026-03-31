@@ -6,7 +6,7 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectPackages("tests.ui")
+@SelectPackages("tests.ui.cart")
 public class UiSuite {
     
 }

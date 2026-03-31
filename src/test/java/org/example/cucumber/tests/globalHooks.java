@@ -8,7 +8,9 @@ import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.Step;
 
+import org.example.cucumber.utils.browserUtils;
 import org.example.cucumber.utils.driverManager;
+import org.example.cucumber.utils.imageLogUtil;
 
 import io.cucumber.java.Status;
 import org.example.cucumber.utils.loggerUtils;
@@ -53,6 +55,13 @@ public class globalHooks {
     @After(order = 100, value = "@ui")
     public void resetBrowser(Scenario scenario) {
         try {
+            if (scenario.isFailed()) {
+                browserUtils utils = new browserUtils(driverManager.getDriver());
+                byte[] screenshot = utils.takeScreenshot();
+                imageLogUtil.savePng(screenshot, scenario.getName().replaceAll("\\s+", "_"));
+                scenario.attach(screenshot, "image/png", scenario.getName().replaceAll("\\s+", "_"));
+            }
+
             driverManager.resetForNextScenario();
             System.out.println("Reset browser: " + " | Thread=" + Thread.currentThread().threadId());
         } catch (Exception e) {

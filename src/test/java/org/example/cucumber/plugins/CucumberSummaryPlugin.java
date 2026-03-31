@@ -39,7 +39,7 @@ public class CucumberSummaryPlugin implements ConcurrentEventListener {
             UUID id = testCase.getId();
             String uri = testCase.getUri() != null ? testCase.getUri().toString() : "unknown";
             int line = testCase.getLocation() != null ? testCase.getLocation().getLine() : -1;
-            String errorMessage =event.getResult().getError().getMessage();
+            String errorMessage =event.getResult().getError() != null ? event.getResult().getError().getMessage() : "No error message";
 
             Status status = event.getResult().getStatus();
             switch (status) {
@@ -68,7 +68,7 @@ public class CucumberSummaryPlugin implements ConcurrentEventListener {
             LOGGER.info(
                     "Tests run: {}, Pass: {}, Failures: {}, Skipped: {}, Time elapsed: {} s",
                     total.get(),
-                    total.get() - failed.get() - skipped.get(),
+                    pass.get(),
                     failed.get(),
                     skipped.get(),
                     String.format("%.3f", elapsedSeconds));

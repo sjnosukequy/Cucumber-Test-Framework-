@@ -1,6 +1,5 @@
 package org.example.cucumber.utils;
 
-import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.example.cucumber.env.envManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
-// import org.openqa.selenium.chrome.ChromeDriver;
-// import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 
 public class driverManager {
     private static int timeout = envManager.getBrowserTimeout();
@@ -39,13 +34,8 @@ public class driverManager {
             return;
         }
 
-        EdgeOptions options = new EdgeOptions();
-        File extensionPath = new File("src/test/resources/adBlock.crx");
-        options.addExtensions(extensionPath);
-        options.addArguments("--start-maximized");
-        // options.addArguments("--headless=new"); // enable if needed
-
-        WebDriver driver = new EdgeDriver(options);
+        browserManger browserManager = new browserManger();
+        WebDriver driver = browserManager.getBrowserDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
 
         DRIVER.set(driver);
@@ -233,4 +223,5 @@ public class driverManager {
         DRIVER.remove();
     }
 
+    
 }

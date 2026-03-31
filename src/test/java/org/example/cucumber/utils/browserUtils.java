@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.example.cucumber.src.models.object.credential;
 import org.example.cucumber.src.models.pom.loginPage;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.OutputType;
 
 public class browserUtils {
     WebDriver driver;
@@ -52,4 +54,9 @@ public class browserUtils {
         }
         return false;
     }
+
+    public byte[] takeScreenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
 }
