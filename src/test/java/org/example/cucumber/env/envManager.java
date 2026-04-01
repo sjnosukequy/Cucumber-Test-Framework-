@@ -8,6 +8,7 @@ public class envManager {
     private static String browser_type;
     private static boolean browser_headless;
     private static boolean browser_window_maximize;
+    private static boolean use_custom_driver_path;
 
     static {
         baseURI = propertiesManager.get("baseURI");
@@ -15,6 +16,7 @@ public class envManager {
         browser_type = propertiesManager.get("browser_type");
         browser_headless = Boolean.parseBoolean(propertiesManager.get("browser_headless"));
         browser_window_maximize = Boolean.parseBoolean(propertiesManager.get("browser_window_maximize"));
+        use_custom_driver_path = Boolean.parseBoolean(propertiesManager.get("use_custom_driver_path"));
         // email = System.getenv("EMAIL");
         // password = System.getenv("PASSWORD");
     }
@@ -38,4 +40,9 @@ public class envManager {
     public static boolean isBrowserWindowMaximize() {
         return browser_window_maximize;
     }
+
+    public static boolean isUseCustomDriverPath() {
+        return use_custom_driver_path;
+    }
+
 }

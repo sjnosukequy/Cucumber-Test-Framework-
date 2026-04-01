@@ -19,6 +19,13 @@ public class browserManger {
         String browser = envManager.getBrowserType();
         Boolean headless = envManager.isBrowserHeadless();
         Boolean maximize = envManager.isBrowserWindowMaximize();
+
+        if(envManager.isUseCustomDriverPath()){
+            System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chrome/chromedriver.exe");
+            System.setProperty("webdriver.edge.driver", "src/test/resources/drivers/edge/msedgedriver.exe");
+            System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/firefox/geckodriver.exe");
+        }
+
         if (browser.equalsIgnoreCase("chrome")) {
             File extensionPath = new File("src/test/resources/drivers/chrome/ublock.crx");
 
