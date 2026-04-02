@@ -1,5 +1,6 @@
 package org.example.cucumber.src.models.pom;
 
+import org.example.cucumber.src.models.constants.routes;
 import org.example.cucumber.utils.waitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class homePage extends basePage {
     public homePage(WebDriver driver) {
-        super(driver, "/");
+        super(driver, routes.homepage.path);
     }
 
     public void addProductToCart(String productName) {

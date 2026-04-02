@@ -1,5 +1,6 @@
 package org.example.cucumber.src.models.pom;
 
+import org.example.cucumber.src.models.constants.routes;
 import org.example.cucumber.utils.waitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,13 +9,15 @@ import org.openqa.selenium.WebElement;
 public class cartPage extends basePage {
 
     public cartPage(WebDriver driver) {
-        super(driver, "/view_cart");
+        super(driver, routes.cart.path);
     }
 
     public String emptyCartMessageLocater = "#empty_cart";
     public String cartTableLocater = "#cart_info_table";
     public String checkoutButtonLocater = "a.check_out";
     public String continueShoppingPromptLocater = "#empty_cart a[href=\"/products\"]";
+    public String checkoutModalLocater = "#checkoutModal";
+    public String loginPromptLocater = "#checkoutModal .modal-body p";
 
     public WebElement getEmptyCartMessage() {
         return driver.findElement(By.cssSelector(emptyCartMessageLocater));
@@ -30,6 +33,14 @@ public class cartPage extends basePage {
 
     public WebElement getContinueShoppingPrompt() {
         return driver.findElement(By.cssSelector(continueShoppingPromptLocater));
+    }
+
+    public WebElement getCheckoutModal() {
+        return driver.findElement(By.cssSelector(checkoutModalLocater));
+    }
+
+    public WebElement getLoginPrompt() {
+        return driver.findElement(By.cssSelector(loginPromptLocater));
     }
 
     public WebElement getProductRow(String productName) {

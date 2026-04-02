@@ -1,5 +1,6 @@
 package org.example.cucumber.src.models.pom;
 
+import org.example.cucumber.src.models.constants.routes;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,7 +8,7 @@ import org.openqa.selenium.WebElement;
 public class loginPage extends basePage {
 
     public loginPage(WebDriver driver) {
-        super(driver, "/login");
+        super(driver, routes.login.path);
     }
 
     String emailLocater = "input[type=\"email\"]";

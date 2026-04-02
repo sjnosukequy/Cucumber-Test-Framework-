@@ -2,6 +2,7 @@ package org.example.cucumber.tests.ui.cart;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.example.cucumber.src.models.constants.routes;
 import org.example.cucumber.src.models.pom.cartPage;
 import org.example.cucumber.src.models.pom.homePage;
 import org.example.cucumber.utils.browserUtils;
@@ -30,12 +31,20 @@ public class verifyCartTestUi {
     @After("@ui and @cart")
     public void tearDown() {
         try {
-            page.getCartHeader().click();
+            driver.get(page.fullUrl);
             waitUtils.wait(2); // Wait for any pending cart updates to complete
             page.clearCart();
-            // page.getLogoutHeader().click();
         } catch (Exception e) {
-            System.out.println("Error during teardown: " + e.getMessage());
+            // System.out.println("Error during teardown: " + e.getMessage());
+        } finally {
+            System.out.println("Teardown completed, cart cleared if possible.");
+        }
+
+        try {
+            browserUtils.ensureLogOut(driver.getCurrentUrl());
+        } catch (Exception e) {
+        } finally {
+            System.out.println("Teardown completed, user logged out if possible.");
         }
     }
 
@@ -228,7 +237,8 @@ public class verifyCartTestUi {
                 isDeleted = true; // If an exception occurs, it means the product was deleted
             }
             assertEquals(true, isDeleted,
-                    "Expected product '" + parseProduct.trim() + "' to be removed from the cart, but it was still found.");
+                    "Expected product '" + parseProduct.trim()
+                            + "' to be removed from the cart, but it was still found.");
         }
     }
 
@@ -245,4 +255,27 @@ public class verifyCartTestUi {
         }
     }
 
+    @When("I click the checkout button")
+    public void i_click_the_checkout_button() {
+        WebElement checkoutButton = page.getCheckoutButton();
+        checkoutButton.click();
+        waitUtils.wait(2); // Wait for the navigation to the checkout page
+    }
+
+    @Then("the system should navigate me to the checkout-related page")
+    public void the_system_should_navigate_me_to_the_checkout_related_page() {
+        String currentUrl = driver.getCurrentUrl();
+        assertEquals(currentUrl, page.baseUrl + routes.checkout.path,
+                "Expected to navigate to checkout page, but navigated to: " + currentUrl);
+    }
+
+    @Then("I should be prompted to login or register")
+    public void i_should_be_prompted_to_login_or_register() {
+        WebElement loginPrompt = page.getLoginPrompt();
+        String promptText = loginPrompt.getText().toLowerCase();
+        assertEquals(true, loginPrompt.isDisplayed(),
+                "Expected login or register prompt to be visible, but it was not found.");
+        assertEquals(true, promptText.contains("login") || promptText.contains("register"),
+                "Expected login or register prompt to contain 'login' or 'register', but it was: " + promptText);
+    }
 }

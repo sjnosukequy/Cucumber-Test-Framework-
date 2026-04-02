@@ -1,13 +1,10 @@
 package org.example.cucumber.utils;
 
-import java.time.Duration;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.example.cucumber.src.models.object.credential;
+import org.example.cucumber.src.models.pom.homePage;
 import org.example.cucumber.src.models.pom.loginPage;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.OutputType;
@@ -19,40 +16,45 @@ public class browserUtils {
         this.driver = driver;
     }
 
-    public void wait(int seconds) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
-        wait.until(d -> {
-            return true;
-        });
-    }
-
     public String getValidationMessage(WebElement element) {
         String message = (String) ((JavascriptExecutor) driver)
                 .executeScript("return arguments[0].validationMessage;", element);
         return message;
     }
 
-    public boolean ensureLogIn(String currentUrl) {
+    public void ensureLogIn(String currentUrl) {
         loginPage page = new loginPage(driver);
 
         driver.get(page.fullUrl);
-        wait(5);
+        waitUtils.wait(2);
         if (driver.getCurrentUrl().equals(page.homepageUrl)) {
             driver.get(currentUrl);
-            return true;
+            return;
         }
 
         credential creds = accountRotation.get();
+        System.out.println(String.format("Attempting login with user: %s", creds.getEmail()));
 
         page.getEmailField().sendKeys(creds.getEmail());
         page.getPasswordField().sendKeys(creds.getPassword());
         page.getLoginButton().click();
-        wait(5);
+        waitUtils.wait(2);
         if (driver.getCurrentUrl().equals(page.homepageUrl)) {
             driver.get(currentUrl);
-            return true;
+            return;
         }
-        return false;
+        throw new RuntimeException(String.format("Login failed for user %s. Current URL after login attempt: %s:%s", creds.getEmail(), creds.getPassword()));
+    }
+
+    public void ensureLogOut(String currentUrl){
+        homePage page = new homePage(driver);
+        try{
+            page.getLogoutHeader().click();
+            waitUtils.wait(2);
+            driver.get(currentUrl);
+        }catch (Exception e){
+            throw new RuntimeException("Error during logout: " + e.getMessage());
+        }
     }
 
     public byte[] takeScreenshot() {

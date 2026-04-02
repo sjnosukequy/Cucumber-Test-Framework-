@@ -55,17 +55,24 @@ public class globalHooks {
     @After(order = 100, value = "@ui")
     public void resetBrowser(Scenario scenario) {
         try {
+            driverManager.resetForNextScenario();
+            System.out.println("Reset browser: " + " | Thread=" + Thread.currentThread().threadId());
+        } catch (Exception e) {
+            System.out.println("Skip browser reset: " + e.getMessage());
+        }
+    }
+
+    @After(order = 10100, value = "@ui")
+    public void takeScreenShot(Scenario scenario) {
+        try {
             if (scenario.isFailed()) {
                 browserUtils utils = new browserUtils(driverManager.getDriver());
                 byte[] screenshot = utils.takeScreenshot();
                 imageLogUtil.savePng(screenshot, scenario.getName().replaceAll("\\s+", "_"));
                 scenario.attach(screenshot, "image/png", scenario.getName().replaceAll("\\s+", "_"));
             }
-
-            driverManager.resetForNextScenario();
-            System.out.println("Reset browser: " + " | Thread=" + Thread.currentThread().threadId());
         } catch (Exception e) {
-            System.out.println("Skip browser reset: " + e.getMessage());
+            System.out.println("Skip final screenshot: " + e.getMessage());
         }
     }
 
