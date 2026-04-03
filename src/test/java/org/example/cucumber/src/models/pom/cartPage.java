@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class cartPage extends basePage {
+public class cartPage extends basePage implements cartTableRelated {
 
     public cartPage(WebDriver driver) {
         super(driver, routes.cart.path);
@@ -43,18 +43,18 @@ public class cartPage extends basePage {
         return driver.findElement(By.cssSelector(loginPromptLocater));
     }
 
-    public WebElement getProductRow(String productName) {
-        WebElement productNameElement = driver.findElement(By.xpath("//a[text()='" + productName + "']"));
-        WebElement productRow = productNameElement.findElement(By.xpath("./ancestor::tr"));
-        return productRow;
-    }
-
     String productRowImageLocater = "img";
     String productRowNameLocater = "td.cart_description a";
     String productRowPriceLocater = "td.cart_price p";
     String productRowQuantityLocater = "td.cart_quantity button";
     String productRowTotalLocater = "td.cart_total p";
     String productRowDeleteLocater = "td.cart_delete a";
+
+    public WebElement getProductRow(String productName) {
+        WebElement productNameElement = driver.findElement(By.xpath("//a[text()='" + productName + "']"));
+        WebElement productRow = productNameElement.findElement(By.xpath("./ancestor::tr"));
+        return productRow;
+    }
 
     public WebElement getProductRowImage(WebElement productRow) {
         return productRow.findElement(By.cssSelector(productRowImageLocater));

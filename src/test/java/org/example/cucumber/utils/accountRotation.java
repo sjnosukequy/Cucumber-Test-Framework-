@@ -29,4 +29,9 @@ public class accountRotation {
         return accounts.get(index);
     }
 
+    public static credential getCurrent(){
+        int index = Math.floorMod(cursor.get(), accounts.size());
+        return accounts.get(index);
+    }
+
 }

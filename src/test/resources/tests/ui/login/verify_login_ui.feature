@@ -5,7 +5,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_001 @ui @login @high
   Scenario Outline: Verify user can log in successfully with registered email and correct password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I enter "<password>" into the login Password field
     And I click the Login button
@@ -18,7 +19,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_002 @ui @login @high
   Scenario Outline: Verify user cannot log in with registered email and incorrect password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I enter "<password>" into the login Password field
     And I click the Login button
@@ -30,7 +32,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_003 @ui @login @high
   Scenario Outline: Verify user cannot log in with registered email and empty password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I click the Login button
     Then an error message should be displayed at login password field "<message>"
@@ -41,7 +44,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_004 @ui @login @high
   Scenario Outline: Verify user cannot log in with unregistered valid-format email and correct password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I enter "<password>" into the login Password field
     And I click the Login button
@@ -53,7 +57,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_005 @ui @login @medium
   Scenario Outline: Verify user cannot log in with unregistered valid-format email and incorrect password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I enter "<password>" into the login Password field
     And I click the Login button
@@ -65,7 +70,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_006 @ui @login @medium
   Scenario Outline: Verify user cannot log in with unregistered valid-format email and empty password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I click the Login button
     Then an error message should be displayed at login password field "<message>"
@@ -76,7 +82,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_007 @ui @login @medium
   Scenario Outline: Verify user cannot log in with invalid email format and correct password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I enter "<password>" into the login Password field
     And I click the Login button
@@ -88,7 +95,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_008 @ui @login @medium
   Scenario Outline: Verify user cannot log in with invalid email format and incorrect password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I enter "<password>" into the login Password field
     And I click the Login button
@@ -100,7 +108,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_009 @ui @login @medium
   Scenario Outline: Verify user cannot log in with invalid email format and empty password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<email>" into the login Email Address field
     And I click the Login button
     Then an error message should be displayed at login email field "<message>"
@@ -111,7 +120,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_010 @ui @login @medium
   Scenario Outline: Verify user cannot log in with empty email and correct password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<password>" into the login Password field
     And I click the Login button
     Then an error message should be displayed at login email field "<message>"
@@ -122,7 +132,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_011 @ui @login @medium
   Scenario Outline: Verify user cannot log in with empty email and incorrect password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     When I enter "<password>" into the login Password field
     And I click the Login button
     Then an error message should be displayed at login email field "<message>"
@@ -133,7 +144,8 @@ Feature: Verify Login UI
 
   @TC_UI_Login_Login_012 @ui @login @medium
   Scenario: Verify user cannot log in with empty email and empty password
-    Given I am on the login page
+    Given I am on the home page
+    Then I am on the login page
     And I click the Login button
     Then an error message should be displayed at login email field "<message>"
     And an error message should be displayed at login password field "<message>"
