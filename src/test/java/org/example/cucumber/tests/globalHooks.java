@@ -8,6 +8,7 @@ import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.Step;
 
+import org.example.cucumber.env.envManager;
 import org.example.cucumber.utils.browserUtils;
 import org.example.cucumber.utils.driverManager;
 import org.example.cucumber.utils.imageLogUtil;
@@ -65,7 +66,7 @@ public class globalHooks {
     @After(order = 10100, value = "@ui")
     public void takeScreenShot(Scenario scenario) {
         try {
-            if (scenario.isFailed()) {
+            if (envManager.isLogImagesOnFailure() && scenario.isFailed()) {
                 browserUtils utils = new browserUtils(driverManager.getDriver());
                 byte[] screenshot = utils.takeScreenshot();
                 imageLogUtil.savePng(screenshot, scenario.getName().replaceAll("\\s+", "_"));

@@ -119,3 +119,135 @@ Feature: Verify Checkout Functionality
     Examples:
       | product  |
       | Blue Top |
+
+  @TC_UI_Checkout_Checkout_010 @ui @checkout @high
+  Scenario Outline: Verify user can input checkout details and proceed to payment confirmation
+    Given I am on the home page
+    And I am logged in on the UI
+    And I have added "<product>" to the cart
+    When I navigate directly to "/checkout"
+    And I enter "<comment>" into the order comment field it should appear correctly in the text box
+    And I click the Place Order button
+    Then I should be redirected to "/payment"
+    When I enter "<nameOnCard>" into the Name on Card field
+    And I enter "<cardNumber>" into the Card Number field
+    And I enter "<cvc>" into the CVC field
+    And I enter "<expirationMonth>" into the Expiration Month field
+    And I enter "<expirationYear>" into the Expiration Year field
+    And I click the Pay and Confirm Order button
+    And I should be redirected to the invoice page
+
+    Examples:
+      | product  | comment                 | nameOnCard | cardNumber       | cvc | expirationMonth | expirationYear |
+      | Blue Top | Leave at reception desk | Faker      | 4655724338490811 | 906 |              11 |           2027 |
+
+  @TC_UI_Checkout_Checkout_011 @ui @checkout @high
+  Scenario Outline: Verify user cannot proceed to payment confirmation when required card details are missing
+    Given I am on the home page
+    And I am logged in on the UI
+    And I have added "<product>" to the cart
+    When I navigate directly to "/checkout"
+    And I click the Place Order button
+    Then I should be redirected to "/payment"
+    When I enter "<nameOnCard>" into the Name on Card field
+    And I enter "<cardNumber>" into the Card Number field
+    And I enter "<cvc>" into the CVC field
+    And I enter "<expirationMonth>" into the Expiration Month field
+    And I enter "<expirationYear>" into the Expiration Year field
+    And I click the Pay and Confirm Order button
+    Then validation messages should be displayed for required payment fields
+
+    Examples:
+      | product  | nameOnCard | cardNumber       | cvc | expirationMonth | expirationYear |
+      | Blue Top |            | 4655724338490811 | 906 |              11 |           2027 |
+      | Blue Top | Faker      |                  | 906 |              11 |           2027 |
+      | Blue Top | Faker      | 4655724338490811 |     |              11 |           2027 |
+      | Blue Top | Faker      | 4655724338490811 | 906 |                 |           2027 |
+      | Blue Top | Faker      | 4655724338490811 | 906 |              11 |                |
+
+  @TC_UI_Checkout_Checkout_012 @ui @checkout @high
+  Scenario Outline: Verify user cannot proceed when expiration month is invalid
+    Given I am on the home page
+    And I am logged in on the UI
+    And I have added "<product>" to the cart
+    When I navigate directly to "/checkout"
+    And I click the Place Order button
+    Then I should be redirected to "/payment"
+    When I enter "<nameOnCard>" into the Name on Card field
+    And I enter "<cardNumber>" into the Card Number field
+    And I enter "<cvc>" into the CVC field
+    And I enter "<expirationMonth>" into the Expiration Month field
+    And I enter "<expirationYear>" into the Expiration Year field
+    And I click the Pay and Confirm Order button
+    Then validation messages should be displayed for required payment fields
+
+    Examples:
+      | product  | nameOnCard | cardNumber       | cvc | expirationMonth | expirationYear |
+      | Blue Top | Faker      | 4655724338490811 | 906 |               0 |           2027 |
+      | Blue Top | Faker      | 4655724338490811 | 906 |              13 |           2027 |
+      | Blue Top | Faker      | 4655724338490811 | 906 | a               |           2027 |
+
+  @TC_UI_Checkout_Checkout_013 @ui @checkout @high
+  Scenario Outline: Verify user cannot proceed when expiration year is zero, negative or characters
+    Given I am on the home page
+    And I am logged in on the UI
+    And I have added "<product>" to the cart
+    When I navigate directly to "/checkout"
+    And I click the Place Order button
+    Then I should be redirected to "/payment"
+    When I enter "<nameOnCard>" into the Name on Card field
+    And I enter "<cardNumber>" into the Card Number field
+    And I enter "<cvc>" into the CVC field
+    And I enter "<expirationMonth>" into the Expiration Month field
+    And I enter "<expirationYear>" into the Expiration Year field
+    And I click the Pay and Confirm Order button
+    Then validation messages should be displayed for required payment fields
+
+    Examples:
+      | product  | nameOnCard | cardNumber       | cvc | expirationMonth | expirationYear |
+      | Blue Top | Faker      | 4655724338490811 | 906 |              11 |              0 |
+      | Blue Top | Faker      | 4655724338490811 | 906 |              11 | a              |
+
+  @TC_UI_Checkout_Checkout_014 @ui @checkout @high
+  Scenario Outline: Verify user cannot proceed when card number is zero, negative, or contains characters
+    Given I am on the home page
+    And I am logged in on the UI
+    And I have added "<product>" to the cart
+    When I navigate directly to "/checkout"
+    And I click the Place Order button
+    Then I should be redirected to "/payment"
+    When I enter "<nameOnCard>" into the Name on Card field
+    And I enter "<cardNumber>" into the Card Number field
+    And I enter "<cvc>" into the CVC field
+    And I enter "<expirationMonth>" into the Expiration Month field
+    And I enter "<expirationYear>" into the Expiration Year field
+    And I click the Pay and Confirm Order button
+    Then validation messages should be displayed for required payment fields
+
+    Examples:
+      | product  | nameOnCard | cardNumber        | cvc | expirationMonth | expirationYear |
+      | Blue Top | Faker      | a                 | 906 |              11 |           2027 |
+      | Blue Top | Faker      |   999999999999999 | 906 |              11 |           2027 |
+      | Blue Top | Faker      | 10000000000000000 | 906 |              11 |           2027 |
+
+  @TC_UI_Checkout_Checkout_015 @ui @checkout @high
+  Scenario Outline: Verify user cannot proceed when CVC is zero, negative, or contains characters
+    Given I am on the home page
+    And I am logged in on the UI
+    And I have added "<product>" to the cart
+    When I navigate directly to "/checkout"
+    And I click the Place Order button
+    Then I should be redirected to "/payment"
+    When I enter "<nameOnCard>" into the Name on Card field
+    And I enter "<cardNumber>" into the Card Number field
+    And I enter "<cvc>" into the CVC field
+    And I enter "<expirationMonth>" into the Expiration Month field
+    And I enter "<expirationYear>" into the Expiration Year field
+    And I click the Pay and Confirm Order button
+    Then validation messages should be displayed for required payment fields
+
+    Examples:
+      | product  | nameOnCard | cardNumber       | cvc  | expirationMonth | expirationYear |
+      | Blue Top | Faker      | 4655724338490811 | a    |              11 |           2027 |
+      | Blue Top | Faker      | 4655724338490811 |   99 |              11 |           2027 |
+      | Blue Top | Faker      | 4655724338490811 | 1000 |              11 |           2027 |

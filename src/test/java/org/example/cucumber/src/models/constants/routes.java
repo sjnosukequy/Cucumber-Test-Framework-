@@ -9,7 +9,7 @@ public enum routes {
     signup("/signup"),
     checkout("/checkout"),
     payment("/payment"),
-    paymentDone("/payment_done/2000");
+    paymentDone("/payment_done");
 
     public final String path;
 

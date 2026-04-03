@@ -67,8 +67,7 @@ public class baseTestUi {
         WebDriver driver = driverManager.getDriver();
         String currentUrl = driver.getCurrentUrl();
         String expectedFullUrl = envManager.getBaseURI() + expectedUrl;
-        assertEquals(expectedFullUrl, currentUrl,
-                "Expected to be redirected to " + expectedFullUrl + " but was redirected to " + currentUrl);
+        assertEquals(expectedFullUrl, currentUrl, "Wrong redirection");
     }
 
     @And("verify I have no items in the cart")

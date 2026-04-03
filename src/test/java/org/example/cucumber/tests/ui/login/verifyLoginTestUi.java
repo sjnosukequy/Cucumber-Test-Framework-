@@ -119,7 +119,7 @@ public class verifyLoginTestUi {
 
         String currentUrl = driver.getCurrentUrl();
         loggerUtils.appendLine("Current URL after login: " + currentUrl);
-        assertEquals(currentUrl, page.homepageUrl, "Expected to be redirected to homepage URL: " + page.homepageUrl);
+        assertEquals(page.homepageUrl, currentUrl, "Expected to be redirected to homepage URL");
         // Implement the logic to verify that the user is redirected to the homepage
         // This could involve checking the URL, a specific element on the homepage, etc.
     }

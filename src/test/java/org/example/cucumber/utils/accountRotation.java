@@ -8,7 +8,7 @@ import org.example.cucumber.src.models.object.credential;
 import org.example.cucumber.properties.propertiesManager;
 
 public class accountRotation {
-    private static int maxAccounts = 4;
+    private static int maxAccounts = 6;
     private static AtomicInteger cursor = new AtomicInteger(0);
     private static List<credential> accounts = loadAccounts();
 

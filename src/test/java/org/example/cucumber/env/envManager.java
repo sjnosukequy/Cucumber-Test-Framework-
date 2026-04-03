@@ -9,7 +9,8 @@ public class envManager {
     private static boolean browser_headless;
     private static boolean browser_window_maximize;
     private static boolean use_custom_driver_path;
-
+    private static boolean log_images_on_failure;
+    
     static {
         baseURI = propertiesManager.get("baseURI");
         browser_timeout = Integer.parseInt(propertiesManager.get("browser_timeout"));
@@ -17,6 +18,7 @@ public class envManager {
         browser_headless = Boolean.parseBoolean(propertiesManager.get("browser_headless"));
         browser_window_maximize = Boolean.parseBoolean(propertiesManager.get("browser_window_maximize"));
         use_custom_driver_path = Boolean.parseBoolean(propertiesManager.get("use_custom_driver_path"));
+        log_images_on_failure = Boolean.parseBoolean(propertiesManager.get("log_images_on_failure"));
         // email = System.getenv("EMAIL");
         // password = System.getenv("PASSWORD");
     }
@@ -43,6 +45,10 @@ public class envManager {
 
     public static boolean isUseCustomDriverPath() {
         return use_custom_driver_path;
+    }
+
+    public static boolean isLogImagesOnFailure() {
+        return log_images_on_failure;
     }
 
 }
