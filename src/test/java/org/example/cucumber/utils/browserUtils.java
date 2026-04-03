@@ -22,6 +22,12 @@ public class browserUtils {
         return message;
     }
 
+    public String getTextValue(WebElement element) {
+        String value = (String) ((JavascriptExecutor) driver)
+                .executeScript("return arguments[0].value;", element);
+        return value;
+    }
+
     public void ensureLogIn(String currentUrl) {
         loginPage page = new loginPage(driver);
 

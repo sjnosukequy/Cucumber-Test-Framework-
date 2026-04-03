@@ -27,21 +27,27 @@ public class checkoutPage extends basePage implements cartTableRelated {
     public WebElement getAddressNameHelper(WebElement addressSection) {
         return addressSection.findElement(By.cssSelector(addressNameHelperLocater));
     }
+
     public WebElement getAddressCompanyHelper(WebElement addressSection) {
         return addressSection.findElement(By.cssSelector(addressCompanyHelperLocater));
     }
+
     public WebElement getAddress1Helper(WebElement addressSection) {
         return addressSection.findElement(By.cssSelector(address1HelperLocater));
     }
+
     public WebElement getAddress2Helper(WebElement addressSection) {
         return addressSection.findElement(By.cssSelector(address2HelperLocater));
     }
+
     public WebElement getAddressCityHelper(WebElement addressSection) {
         return addressSection.findElement(By.cssSelector(addressCityHelperLocater));
     }
+
     public WebElement getAddressCountryHelper(WebElement addressSection) {
         return addressSection.findElement(By.cssSelector(addressCountryHelperLocater));
     }
+
     public WebElement getAddressPhoneHelper(WebElement addressSection) {
         return addressSection.findElement(By.cssSelector(addressPhoneHelperLocater));
     }
@@ -116,5 +122,16 @@ public class checkoutPage extends basePage implements cartTableRelated {
         } catch (Exception e) {
             System.out.println("Cart is already empty.");
         }
+    }
+
+    public WebElement getOverallOrderRow() {
+        WebElement productNameElement = driver.findElement(By.xpath("//b[text()='Total Amount']"));
+        WebElement orderRow = productNameElement.findElement(By.xpath("./ancestor::tr"));
+        return orderRow;
+    }
+
+    public WebElement getTotalPrice(){
+        WebElement overallTotalRow = getOverallOrderRow();
+        return overallTotalRow.findElement(By.cssSelector("p.cart_total_price"));
     }
 }

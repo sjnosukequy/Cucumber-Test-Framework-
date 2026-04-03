@@ -193,6 +193,26 @@ public class baseTestUi {
         }
     }
 
+    @And("the overall order total should be correctly displayed - checkout")
+    public void the_overall_order_total_should_be_correctly_displayed() {
+        checkoutPage page = new checkoutPage(driverManager.getDriver());
+        WebElement totalPrice = page.getTotalPrice();
+        double actualTotal = Double.parseDouble(totalPrice.getText().split(" ")[1]);
+        double expectedTotal = 0.0;
+        for (String product : this.products.split(";")) {
+            if (!this.deletedProducts.contains(product)) {
+                String parseProduct = prodStringUtils.parseProd(product);
+                WebElement cartRow = page.getProductRow(parseProduct.trim());
+                WebElement totalElement = page.getProductRowTotal(cartRow);
+                String totalText = totalElement.getText().split(" ")[1];
+                expectedTotal += Double.parseDouble(totalText);
+            }
+        }
+
+        assertEquals(expectedTotal, actualTotal, 0.01,
+                "Expected overall order total to be displayed correctly, but it was not.");
+    }
+
     @And("the delete icon should be displayed for the item - {string}")
     public void the_delete_icon_should_be_displayed_for_the_item(String pageType) {
         cartTableRelated page = getCartTableRelatedPage(pageType);

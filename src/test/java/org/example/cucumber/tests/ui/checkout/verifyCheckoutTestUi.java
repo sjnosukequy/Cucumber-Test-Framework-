@@ -207,4 +207,30 @@ public class verifyCheckoutTestUi {
                 String.format("Expected billing address country to match profile data '%s', but got '%s'",
                         expectedCountry, displayedCountry));
     }
+
+    @When("I enter {string} into the order comment field it should appear correctly in the text box")
+    public void iEnterIntoTheOrderCommentFieldItShouldAppearCorrectlyInTheTextBox(String comment) {
+        WebDriver driver = driverManager.getDriver();
+        browserUtils browserUtils = new browserUtils(driver);
+        checkoutPage checkout = new checkoutPage(driver);
+        WebElement commentArea = checkout.getOrderMessage();
+        commentArea.clear();
+        waitUtils.wait(1); // Wait for the text to be entered into the box
+        commentArea.sendKeys(comment);
+        waitUtils.wait(1); // Wait for the text to be entered into the box
+        String actualComment = browserUtils.getTextValue(commentArea);
+        waitUtils.wait(1); // Wait for the text to be entered into the box
+        assertEquals(comment, actualComment,
+                String.format("Expected entered comment to be '%s', but got '%s'", comment, actualComment));
+    }
+
+    @And("I click the Place Order button")
+    public void iClickThePlaceOrderButton() {
+        WebDriver driver = driverManager.getDriver();
+        checkoutPage checkout = new checkoutPage(driver);
+        WebElement placeOrderButton = checkout.getPlaceOrderButton();
+        placeOrderButton.click();
+        waitUtils.wait(2); // Wait for the page to navigate to the payment details page
+    }
+    
 }
