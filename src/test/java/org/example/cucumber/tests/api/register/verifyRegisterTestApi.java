@@ -25,7 +25,7 @@ public class verifyRegisterTestApi {
         response = createAccApi.createAcc(userObj);
     }
 
-    @After("@register and not @donotCleanup")
+    @After("@api and @register and not @donotCleanup")
     public void cleanupTestUsers() {
         Response response = deleteAccApi.deleteAcc(userObj.email, userObj.password);
         int actualStatusCode = response.jsonPath().getInt("responseCode");

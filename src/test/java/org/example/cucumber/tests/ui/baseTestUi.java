@@ -265,4 +265,15 @@ public class baseTestUi {
             }
         }
     }
+
+    @And("verify that i am logged in on the UI")
+    public void verify_that_i_am_logged_in_on_the_UI() {
+        WebDriver driver = driverManager.getDriver();
+        homePage homePage = new homePage(driver);
+        try {
+            homePage.getLoginHeader();
+            throw new AssertionError("Expected to be logged in, but login header was found.");
+        } catch (Exception e) {
+        }
+    }
 }

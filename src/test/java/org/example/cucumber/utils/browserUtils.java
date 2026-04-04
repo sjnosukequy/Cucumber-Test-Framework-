@@ -3,8 +3,9 @@ package org.example.cucumber.utils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.example.cucumber.env.envManager;
+import org.example.cucumber.src.models.constants.routes;
 import org.example.cucumber.src.models.object.credential;
-import org.example.cucumber.src.models.pom.homePage;
 import org.example.cucumber.src.models.pom.loginPage;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.OutputType;
@@ -53,11 +54,11 @@ public class browserUtils {
     }
 
     public void ensureLogOut(String currentUrl){
-        homePage page = new homePage(driver);
         try{
-            page.getLogoutHeader().click();
+            driver.get(envManager.getBaseURI() + routes.logout.path);
             waitUtils.wait(2);
             driver.get(currentUrl);
+            waitUtils.wait(2);
         }catch (Exception e){
             throw new RuntimeException("Error during logout: " + e.getMessage());
         }

@@ -21,6 +21,7 @@ public class basePage {
 
     public String cartHeaderLocater = "a[href=\"/view_cart\"]";
     public String logoutHeaderLocater = "a[href=\"/logout\"]";
+    public String loginHeaderLocater = "a[href=\"/login\"]";
 
     public WebElement getCartHeader() {
         return driver.findElement(By.cssSelector(cartHeaderLocater));
@@ -28,5 +29,9 @@ public class basePage {
 
     public WebElement getLogoutHeader() {
         return driver.findElement(By.cssSelector(logoutHeaderLocater));
+    }
+
+    public WebElement getLoginHeader() {
+        return driver.findElement(By.cssSelector(loginHeaderLocater));
     }
 }

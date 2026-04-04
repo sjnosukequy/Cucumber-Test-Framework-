@@ -11,8 +11,8 @@ public class loginPage extends basePage {
         super(driver, routes.login.path);
     }
 
-    String emailLocater = "input[type=\"email\"]";
-    String passwordLocater = "input[type=\"password\"]";
+    String emailLocater = "input[data-qa=\"login-email\"]";
+    String passwordLocater = "input[data-qa=\"login-password\"]";
     String loginButtonLocater = "button[data-qa=\"login-button\"]";
     String errorMessageLocater = "form[action=\"/login\"] p";
     String logOutLocater = "a[href=\"/logout\"]";

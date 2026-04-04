@@ -1,4 +1,4 @@
-Feature: Verify Cart Functionality
+Feature: Verify Cart UI
   As a tester
   I want to validate the cart functionality on the UI
   So that cart states, item details, deletion behavior, and checkout flow work correctly

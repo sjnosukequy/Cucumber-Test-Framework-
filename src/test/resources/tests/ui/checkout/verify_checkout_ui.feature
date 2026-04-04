@@ -1,4 +1,4 @@
-Feature: Verify Checkout Functionality
+Feature: Verify Checkout UI
   As a tester
   I want to validate the checkout functionality on the UI
   So that only eligible users can access checkout, review order details, and complete payment correctly
