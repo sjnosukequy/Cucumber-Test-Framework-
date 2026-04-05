@@ -9,8 +9,15 @@ public class envManager {
     private static boolean browser_headless;
     private static boolean browser_window_maximize;
     private static boolean use_custom_driver_path;
+    private static boolean use_custom_binary_path;
     private static boolean log_images_on_failure;
-    
+    private static String custom_chrome_binary_path;
+    private static String custom_chrome_driver_path;
+    private static String custom_edge_binary_path;
+    private static String custom_edge_driver_path;
+    private static String custom_firefox_binary_path;
+    private static String custom_firefox_driver_path;
+
     static {
         baseURI = propertiesManager.get("baseURI");
         browser_timeout = Integer.parseInt(propertiesManager.get("browser_timeout"));
@@ -18,7 +25,16 @@ public class envManager {
         browser_headless = Boolean.parseBoolean(propertiesManager.get("browser_headless"));
         browser_window_maximize = Boolean.parseBoolean(propertiesManager.get("browser_window_maximize"));
         use_custom_driver_path = Boolean.parseBoolean(propertiesManager.get("use_custom_driver_path"));
+        use_custom_binary_path = Boolean.parseBoolean(propertiesManager.get("use_custom_binary_path"));
+        custom_chrome_binary_path = propertiesManager.get("custom_chrome_binary_path");
+        custom_chrome_driver_path = propertiesManager.get("custom_chrome_driver_path");
+        custom_edge_binary_path = propertiesManager.get("custom_edge_binary_path");
+        custom_edge_driver_path = propertiesManager.get("custom_edge_driver_path");
+        custom_firefox_binary_path = propertiesManager.get("custom_firefox_binary_path");
+        custom_firefox_driver_path = propertiesManager.get("custom_firefox_driver_path");
+
         log_images_on_failure = Boolean.parseBoolean(propertiesManager.get("log_images_on_failure"));
+
         // email = System.getenv("EMAIL");
         // password = System.getenv("PASSWORD");
     }
@@ -51,4 +67,31 @@ public class envManager {
         return log_images_on_failure;
     }
 
+    public static boolean isUseCustomBinaryPath() {
+        return use_custom_binary_path;
+    }
+
+    public static String getCustomChromeBinaryPath() {
+        return custom_chrome_binary_path;
+    }
+
+    public static String getCustomChromeDriverPath() {
+        return custom_chrome_driver_path;
+    }
+
+    public static String getCustomEdgeBinaryPath() {
+        return custom_edge_binary_path;
+    }
+
+    public static String getCustomEdgeDriverPath() {
+        return custom_edge_driver_path;
+    }
+
+    public static String getCustomFirefoxBinaryPath() {
+        return custom_firefox_binary_path;
+    }
+
+    public static String getCustomFirefoxDriverPath() {
+        return custom_firefox_driver_path;
+    }
 }

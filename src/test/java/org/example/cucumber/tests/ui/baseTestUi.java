@@ -18,6 +18,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.qameta.allure.Allure;
 
 public class baseTestUi {
     int currentTab;
@@ -90,6 +91,8 @@ public class baseTestUi {
         homePage homePage = new homePage(driverManager.getDriver());
         this.products = prodStringUtils.convertFormat(products);
         for (String product : this.products.split(";")) {
+            Allure.parameter("Product Name", product.trim());
+
             String parseProduct = prodStringUtils.parseProd(product);
             System.out.println("Adding product to cart: " + parseProduct.trim());
             homePage.addProductToCart(parseProduct.trim());
@@ -134,6 +137,8 @@ public class baseTestUi {
         cartTableRelated page = getCartTableRelatedPage(pageType);
 
         for (String product : products.split(";")) {
+            //  Allure.addAttachment("display product", product.trim());
+
             WebElement cartRow = page.getProductRow(product.trim());
             assertEquals(true, cartRow.isDisplayed(),
                     "Expected cart row for product '" + product.trim() + "' to be displayed, but it was not found.");
@@ -146,6 +151,8 @@ public class baseTestUi {
 
         for (String product : this.products.split(";")) {
             if (!this.deletedProducts.contains(product)) {
+                //  Allure.addAttachment("Product Details", product.trim());
+
                 String parseProduct = prodStringUtils.parseProd(product);
                 WebElement cartRow = page.getProductRow(parseProduct.trim());
                 WebElement image = page.getProductRowImage(cartRow);
@@ -170,6 +177,8 @@ public class baseTestUi {
         cartTableRelated page = getCartTableRelatedPage(pageType);
         for (String product : this.products.split(";")) {
             if (!this.deletedProducts.contains(product)) {
+                //  Allure.addAttachment("Product details", product.trim());
+
                 String parseProduct = prodStringUtils.parseProd(product);
                 WebElement cartRow = page.getProductRow(parseProduct.trim());
                 WebElement priceElement = page.getProductRowPrice(cartRow);
@@ -200,6 +209,8 @@ public class baseTestUi {
         double expectedTotal = 0.0;
         for (String product : this.products.split(";")) {
             if (!this.deletedProducts.contains(product)) {
+                //  Allure.addAttachment("Product Details", product.trim());
+
                 String parseProduct = prodStringUtils.parseProd(product);
                 WebElement cartRow = page.getProductRow(parseProduct.trim());
                 WebElement totalElement = page.getProductRowTotal(cartRow);
@@ -216,6 +227,8 @@ public class baseTestUi {
     public void the_delete_icon_should_be_displayed_for_the_item(String pageType) {
         cartTableRelated page = getCartTableRelatedPage(pageType);
         for (String product : this.products.split(";")) {
+            //  Allure.addAttachment("Product Details", product.trim());
+
             String parseProduct = prodStringUtils.parseProd(product);
             WebElement cartRow = page.getProductRow(parseProduct.trim());
             WebElement deleteIcon = page.getProductRowDelete(cartRow);
@@ -228,6 +241,8 @@ public class baseTestUi {
         this.deletedProducts = prodStringUtils.convertFormat(deletedProduct);
         cartTableRelated page = getCartTableRelatedPage(pageType);
         for (String product : this.deletedProducts.split(";")) {
+            //  Allure.addAttachment("Product Details", product.trim());
+
             String parseProduct = prodStringUtils.parseProd(product);
             WebElement cartRow = page.getProductRow(parseProduct.trim());
             WebElement deleteIcon = page.getProductRowDelete(cartRow);
@@ -240,6 +255,8 @@ public class baseTestUi {
     public void the_deleted_items_should_be_removed(String pageType) {
         cartTableRelated page = getCartTableRelatedPage(pageType);
         for (String product : this.deletedProducts.split(";")) {
+            //  Allure.addAttachment("Product Details", product.trim());
+            
             String parseProduct = prodStringUtils.parseProd(product);
             boolean isDeleted = false;
             try {
@@ -258,6 +275,8 @@ public class baseTestUi {
         cartTableRelated page = getCartTableRelatedPage(pageType);
         for (String product : this.products.split(";")) {
             if (!this.deletedProducts.contains(product)) {
+                //  Allure.addAttachment("Product Details", product.trim());
+
                 String parseProduct = prodStringUtils.parseProd(product);
                 WebElement cartRow = page.getProductRow(parseProduct.trim());
                 assertEquals(true, cartRow.isDisplayed(),

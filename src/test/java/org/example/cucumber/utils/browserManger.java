@@ -19,23 +19,28 @@ public class browserManger {
         String browser = envManager.getBrowserType();
         Boolean headless = envManager.isBrowserHeadless();
         Boolean maximize = envManager.isBrowserWindowMaximize();
+        Boolean useCustomDriverPath = envManager.isUseCustomDriverPath();
+        Boolean useCustomBinaryPath = envManager.isUseCustomBinaryPath();
 
-        if(envManager.isUseCustomDriverPath()){
-            System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chrome/chromedriver.exe");
-            System.setProperty("webdriver.edge.driver", "src/test/resources/drivers/edge/msedgedriver.exe");
-            System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/firefox/geckodriver.exe");
+        if (useCustomDriverPath) {
+            System.setProperty("webdriver.chrome.driver", envManager.getCustomChromeDriverPath());
+            System.setProperty("webdriver.edge.driver", envManager.getCustomEdgeDriverPath());
+            System.setProperty("webdriver.gecko.driver", envManager.getCustomFirefoxDriverPath());
         }
 
         if (browser.equalsIgnoreCase("chrome")) {
             File extensionPath = new File("src/test/resources/drivers/chrome/ublock.crx");
 
             ChromeOptions options = new ChromeOptions();
-            if (headless) {
+            if (headless)
                 options.addArguments("--headless=new");
-            }
-            if (maximize) {
+            if (maximize)
                 options.addArguments("--start-maximized");
+            if (useCustomBinaryPath) {
+                File customBinary = new File(envManager.getCustomChromeBinaryPath());
+                options.setBinary(customBinary);
             }
+
             options.addExtensions(extensionPath);
 
             return new ChromeDriver(options);
@@ -44,25 +49,29 @@ public class browserManger {
             File extensionPath = new File("src/test/resources/drivers/edge/ublock.crx");
 
             EdgeOptions options = new EdgeOptions();
-            if (headless) {
+            if (headless)
                 options.addArguments("--headless=new");
-            }
-            if (maximize) {
+            if (maximize)
                 options.addArguments("--start-maximized");
+            if (useCustomBinaryPath) {
+                File customBinary = new File(envManager.getCustomEdgeBinaryPath());
+                options.setBinary(customBinary);
             }
             options.addExtensions(extensionPath);
 
             return new EdgeDriver(options);
-            
+
         } else if (browser.equalsIgnoreCase("firefox")) {
             Path extensionPath = new File("src/test/resources/drivers/firefox/ublock.xpi").toPath();
 
             FirefoxOptions options = new FirefoxOptions();
-            if (headless) {
+            if (headless)
                 options.addArguments("--headless");
-            }
-            if (maximize) {
+            if (maximize)
                 options.addArguments("--start-maximized");
+            if (useCustomBinaryPath){
+                Path customBinary = new File(envManager.getCustomFirefoxBinaryPath()).toPath();
+                options.setBinary(customBinary);
             }
 
             FirefoxDriver driver = new FirefoxDriver(options);

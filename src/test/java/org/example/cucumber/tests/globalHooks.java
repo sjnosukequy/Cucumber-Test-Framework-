@@ -7,6 +7,10 @@ import io.cucumber.java.Before;
 import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.Step;
+import io.qameta.allure.Allure;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.example.cucumber.env.envManager;
 import org.example.cucumber.utils.browserUtils;
@@ -66,11 +70,15 @@ public class globalHooks {
     @After(order = 10100, value = "@ui")
     public void takeScreenShot(Scenario scenario) {
         try {
-            if (envManager.isLogImagesOnFailure() && scenario.isFailed()) {
+            if (scenario.isFailed()) {
                 browserUtils utils = new browserUtils(driverManager.getDriver());
                 byte[] screenshot = utils.takeScreenshot();
-                imageLogUtil.savePng(screenshot, scenario.getName().replaceAll("\\s+", "_"));
-                scenario.attach(screenshot, "image/png", scenario.getName().replaceAll("\\s+", "_"));
+                if (envManager.isLogImagesOnFailure())
+                    imageLogUtil.savePng(screenshot, scenario.getName().replaceAll("\\s+", "_"));
+
+                String name = scenario.getName().replaceAll("\\s+", "_");
+                InputStream screenShotStream = new ByteArrayInputStream(screenshot);
+                Allure.addAttachment(name, "image/png", screenShotStream, ".png");
             }
         } catch (Exception e) {
             System.out.println("Skip final screenshot: " + e.getMessage());

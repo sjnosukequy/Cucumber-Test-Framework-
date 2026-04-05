@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import io.qameta.allure.Allure;
+
 public class user {
     public String name;
     public String email;
@@ -45,7 +47,7 @@ public class user {
         this.mobile_number = mobile_number;
     }
 
-    public Map<String, String> toMap(){
+    public Map<String, String> toMap() {
         Map<String, String> map = new java.util.HashMap<>();
         map.put("name", this.name);
         map.put("email", this.email);
@@ -76,6 +78,7 @@ public class user {
                     if (parts.length != 2) {
                         throw new IllegalArgumentException("Invalid pair: [" + pair + "]");
                     }
+                    Allure.parameter(parts[0], parts[1]);
                     return parts;
                 })
                 .collect(Collectors.toMap(

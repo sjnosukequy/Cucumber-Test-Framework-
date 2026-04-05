@@ -1,0 +1,17 @@
+{
+  "name": "cucumber",
+  "version": "1.0.0",
+  "description": "control script for cucumber jvm",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "",
+  "scripts": {
+    "test": "mvn test",
+    "clean": "mvn clean",
+    "clearLogs": "node clearLogs.js",
+    "allure:generate": "node deleteReport.js && allure generate target/allure-results",
+    "allure:serve": "npm run allure:generate && npm run allure:open",
+    "allure:open": "allure open reports/allure"
+  }
+}
