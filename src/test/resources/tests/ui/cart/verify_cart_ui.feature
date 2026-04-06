@@ -50,8 +50,8 @@ Feature: Verify Cart UI
     And the Proceed To Checkout button should be visible
 
     Examples:
-      | product             |
-      | Blue Top;Men Tshirt |
+      | product                      |
+      | Blue Top;Men Tshirt;Blue Top |
 
   @TC_UI_Cart_Delete_005 @ui @cart @high
   Scenario Outline: Verify user can remove a selected item from cart with multiple items

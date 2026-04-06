@@ -166,7 +166,7 @@ Feature: Verify Checkout UI
       | Blue Top | Faker      | 4655724338490811 | 906 |              11 |                |
 
   @TC_UI_Checkout_Checkout_012 @ui @checkout @high
-  Scenario Outline: Verify user cannot proceed when expiration month is invalid
+  Scenario Outline: Verify user cannot proceed when expiration month is zero, out of range or characters
     Given I am on the home page
     And I am logged in on the UI
     And I have added "<product>" to the cart
@@ -188,7 +188,7 @@ Feature: Verify Checkout UI
       | Blue Top | Faker      | 4655724338490811 | 906 | a               |           2027 |
 
   @TC_UI_Checkout_Checkout_013 @ui @checkout @high
-  Scenario Outline: Verify user cannot proceed when expiration year is zero, negative or characters
+  Scenario Outline: Verify user cannot proceed when expiration year is zero, out of range or characters
     Given I am on the home page
     And I am logged in on the UI
     And I have added "<product>" to the cart
@@ -209,7 +209,7 @@ Feature: Verify Checkout UI
       | Blue Top | Faker      | 4655724338490811 | 906 |              11 | a              |
 
   @TC_UI_Checkout_Checkout_014 @ui @checkout @high
-  Scenario Outline: Verify user cannot proceed when card number is zero, negative, or contains characters
+  Scenario Outline: Verify user cannot proceed when card number is out of range or contains characters
     Given I am on the home page
     And I am logged in on the UI
     And I have added "<product>" to the cart
@@ -231,7 +231,7 @@ Feature: Verify Checkout UI
       | Blue Top | Faker      | 10000000000000000 | 906 |              11 |           2027 |
 
   @TC_UI_Checkout_Checkout_015 @ui @checkout @high
-  Scenario Outline: Verify user cannot proceed when CVC is zero, negative, or contains characters
+  Scenario Outline: Verify user cannot proceed when CVC is out of range or contains characters
     Given I am on the home page
     And I am logged in on the UI
     And I have added "<product>" to the cart

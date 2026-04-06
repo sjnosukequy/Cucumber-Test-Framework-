@@ -172,7 +172,7 @@ The table below lists currently supported runtime keys used by `envManager`.
 |---|---|---|---|
 | `baseURI` | String | `https://automationexercise.com` | Base URL for UI page objects and API requests. |
 | `browser_timeout` | Integer (seconds) | `4` | Default Selenium implicit wait timeout used by `driverManager`. |
-| `browser_type` | String | `edge` | Browser engine to start (`chrome`, `edge`, `firefox`). |
+| `browser_type` | String | `edge/chrome/firefox` | Browser engine to start (`chrome`, `edge`, `firefox`). |
 | `browser_headless` | Boolean | `false` | Runs browser in headless mode when `true`. |
 | `browser_window_maximize` | Boolean | `true` | Adds maximize/start-maximized behavior when supported. |
 | `use_custom_driver_path` | Boolean | `false` | Enables explicit WebDriver executable paths from custom driver keys. |
