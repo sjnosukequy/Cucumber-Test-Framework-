@@ -10,6 +10,7 @@
     "test": "mvn test",
     "clean": "mvn clean",
     "clearLogs": "node clearLogs.js",
+    "clearReports": "node deleteReport.js",
     "allure:generate": "node deleteReport.js && allure generate target/allure-results",
     "allure:serve": "npm run allure:generate && npm run allure:open",
     "allure:open": "allure open reports/allure"

@@ -87,7 +87,7 @@ It is designed for:
 ## 4. Key Features
 
 - Parallel execution support:
-	- Enabled via `cucumber.execution.parallel.enabled=true` and fixed thread pool strategy in `cucumber.properties`.
+	- Enabled via `cucumber.execution.parallel.enabled=true` and fixed thread pool strategy in `junit-platform.properties`.
 	- Driver/session isolation uses `ThreadLocal<WebDriver>` and thread-local buffers/state for safer concurrent runs.
 	- Shared summary metrics use thread-safe types (`AtomicInteger`, `CopyOnWriteArrayList`, concurrent collections).
 
@@ -138,6 +138,11 @@ Use `.env` for:
 - Credentials and account pools (`email_1/password_1`, `email_2/password_2`, ...)
 - Machine/user-specific values
 - Sensitive data you do not want in shared defaults
+
+Required before first run:
+
+- You must initialize at least one account pair in `.env` (for example `email_1` + `password_1`) before running the framework.
+- If account keys are missing, account-dependent scenarios can fail during runtime.
 
 Notes:
 
@@ -196,7 +201,36 @@ Rules for account pool:
 
 1. Keep indexes continuous (`1..N`) without gaps.
 2. Each `email_i` must have matching `password_i`.
-3. Put these keys in `.env` (recommended), or system env, or `config.properties` if needed.
+3. Initialize these keys in `.env` before executing tests (recommended), or provide equivalent values via system env or `config.properties`.
+
+### F. Parallel execution guideline (`junit-platform.properties`)
+
+Parallel execution is configured in `src/test/resources/junit-platform.properties`.
+
+Recommended baseline configuration:
+
+```properties
+cucumber.execution.parallel.enabled=true
+cucumber.execution.parallel.config.fixed.parallelism=2
+cucumber.execution.parallel.config.fixed.max-pool-size=2
+```
+
+Meaning:
+
+- `cucumber.execution.parallel.enabled=true`: turns parallel execution on.
+- `cucumber.execution.parallel.config.fixed.parallelism=n`: sets the target number of concurrent worker threads.
+- `cucumber.execution.parallel.config.fixed.max-pool-size=n`: caps the thread pool to avoid growth beyond your intended concurrency.
+
+Account rotation sizing rule when using `n` threads:
+
+- At least: `n + n/2` accounts.
+- Ideally: `2n` accounts.
+
+Why this matters:
+
+- `accountRotation` assigns accounts in a rotating sequence across concurrent scenarios.
+- Providing enough accounts reduces collision risk where multiple running tests reuse the same account too close together.
+- This improves account/session isolation and lowers flaky behavior in parallel runs.
 
 ---
 
@@ -240,10 +274,38 @@ or
 mvn test -Dtest=org.example.cucumber.tests.suites.ApiSuite
 ```
 
+### Maven Surefire rerun option (flaky test retry)
+
+Current configuration in `pom.xml`:
+
+```xml
+<rerunFailingTestsCount>0</rerunFailingTestsCount>
+```
+
+What it means:
+
+- Surefire will rerun a failed test one additional time in the same Maven run.
+- Total attempts per failed test become `1 (initial run) + 1 (rerun) = 2`.
+- If the rerun passes, the test is treated as recovered from a transient/flaky failure.
+- If the rerun still fails, the test remains failed.
+
+How to tune it:
+
+- `0`: Disable reruns (strict mode, useful when you want deterministic failure visibility).
+- `1`: Light retry (current setting, often a good balance).
+- `2` or higher: More tolerance for flaky environments, but can hide instability and increase build time.
+
+Typical usage guidance:
+
+- Local development: use `1` to reduce noise from temporary environment issues.
+- CI validation/release gates: prefer `0` or `1` depending on how strict your pipeline must be.
+
+To change it, update the value in the `maven-surefire-plugin` configuration in `pom.xml`.
+
 ### Allure serve via Maven Plugin
 
 ```bash
-mvn io.qameta.allure:allure-maven:2.15.0:serve
+mvn io.qameta.allure:allure-maven:2.17.0:serve
 ```
 
 ### NPM helper scripts
