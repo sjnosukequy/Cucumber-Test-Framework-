@@ -1,6 +1,7 @@
 package org.example.cucumber.tests.ui.cart;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.example.cucumber.utils.uiAssert.assertEquals;
 
 import org.example.cucumber.src.models.pom.cartPage;
 import org.example.cucumber.src.models.pom.homePage;

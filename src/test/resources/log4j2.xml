@@ -8,7 +8,7 @@
       <PatternLayout pattern="%style{%d{yyyy-MM-dd' 'HH:mm:ss}}{cyan} %highlight{%-5p} [%t]: %m%n" />
     </Console>
 
-    <RollingFile name="FileAppender" filePattern="logs/app-%d{yyyy-MM-dd}-%i.txt" append="true">
+    <RollingFile name="FileAppender" filePattern="logs/%d{yyyy-MM-dd}/app-%d{yyyy-MM-dd}-%i.txt" append="true">
       <PatternLayout pattern="%d{yyyy-MM-dd' 'HH:mm:ss} %-5p [%t]: %m%n" />
 
       <Policies>

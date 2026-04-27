@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
 
 public class imageLogUtil {
 
-    private static final String LOG_DIR = "logs";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+    private static final String LOG_DIR = folderUtils.folderString;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy:MM:dd_HH:mm:ss");
 
     /**
      * Saves a PNG byte array into the logs folder with a unique filename.

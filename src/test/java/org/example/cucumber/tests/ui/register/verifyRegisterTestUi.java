@@ -1,6 +1,7 @@
 package org.example.cucumber.tests.ui.register;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.example.cucumber.utils.uiAssert.assertEquals;
 
 import java.util.HashMap;
 

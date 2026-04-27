@@ -2,6 +2,8 @@ package org.example.cucumber.tests.api.register;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.beans.ExceptionListener;
+
 import org.example.cucumber.src.api.deleteAcc.deleteAccApi;
 import org.example.cucumber.src.api.register.createAccApi;
 import org.example.cucumber.src.models.object.user;
@@ -14,9 +16,15 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 
-public class verifyRegisterTestApi {
+public class verifyRegisterTestApi implements ExceptionListener{
     Response response;
     user userObj;
+
+    @Override
+    public void exceptionThrown(Exception e) {
+        loggerUtils.appendLine("*error* custom throw Exception thrown during test execution: " + e.getMessage());
+        loggerUtils.newLine();
+    }
 
     @When("I send a POST register request to {string} with form parameters {string}")
     public void i_send_a_post_register_request_to_with_form_parameters(String endpoint, String user) {

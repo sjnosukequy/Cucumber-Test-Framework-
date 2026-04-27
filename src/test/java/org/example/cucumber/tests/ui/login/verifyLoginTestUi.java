@@ -12,7 +12,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 // import static org.example.cucumber.utils.loggerUtils.LOGGER;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.example.cucumber.utils.uiAssert.assertEquals;
 import org.example.cucumber.src.models.pom.loginPage;
 import org.example.cucumber.utils.loggerUtils;
 

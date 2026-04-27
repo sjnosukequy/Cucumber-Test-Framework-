@@ -4,23 +4,30 @@ import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.Step;
-import io.qameta.allure.Allure;
+// import io.qameta.allure.Allure;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+// import java.io.ByteArrayInputStream;
+// import java.io.InputStream;
 
-import org.example.cucumber.env.envManager;
-import org.example.cucumber.utils.browserUtils;
+// import org.example.cucumber.env.envManager;
+// import org.example.cucumber.utils.browserUtils;
 import org.example.cucumber.utils.driverManager;
-import org.example.cucumber.utils.imageLogUtil;
+import org.example.cucumber.utils.folderUtils;
+// import org.example.cucumber.utils.imageLogUtil;
 
 import io.cucumber.java.Status;
 import org.example.cucumber.utils.loggerUtils;
 
 public class globalHooks {
+
+    @BeforeAll()
+    public static void setup() {
+        folderUtils.createFolder();
+    }
 
     @Before
     public void LogScenario(Scenario scenario) {
@@ -67,23 +74,23 @@ public class globalHooks {
         }
     }
 
-    @After(order = 10100, value = "@ui")
-    public void takeScreenShot(Scenario scenario) {
-        try {
-            if (scenario.isFailed()) {
-                browserUtils utils = new browserUtils(driverManager.getDriver());
-                byte[] screenshot = utils.takeScreenshot();
-                if (envManager.isLogImagesOnFailure())
-                    imageLogUtil.savePng(screenshot, scenario.getName().replaceAll("\\s+", "_"));
+    // @After(order = 10100, value = "@ui")
+    // public void takeScreenShot(Scenario scenario) {
+    //     try {
+    //         if (scenario.isFailed()) {
+    //             browserUtils utils = new browserUtils(driverManager.getDriver());
+    //             byte[] screenshot = utils.takeScreenshot();
+    //             if (envManager.isLogImagesOnFailure())
+    //                 imageLogUtil.savePng(screenshot, scenario.getName().replaceAll("\\s+", "_"));
 
-                String name = scenario.getName().replaceAll("\\s+", "_");
-                InputStream screenShotStream = new ByteArrayInputStream(screenshot);
-                Allure.addAttachment(name, "image/png", screenShotStream, ".png");
-            }
-        } catch (Exception e) {
-            System.out.println("Skip final screenshot: " + e.getMessage());
-        }
-    }
+    //             String name = scenario.getName().replaceAll("\\s+", "_");
+    //             InputStream screenShotStream = new ByteArrayInputStream(screenshot);
+    //             Allure.addAttachment(name, "image/png", screenShotStream, ".png");
+    //         }
+    //     } catch (Exception e) {
+    //         System.out.println("Skip final screenshot: " + e.getMessage());
+    //     }
+    // }
 
     @AfterAll()
     public static void tearDown() {
